@@ -1,3 +1,17 @@
+# Building box
+Before building a box you must remove the network config from the running vm.  
+```
+# on the VM
+sudo rm /etc/udev/rules.d/70-persistent-net.rules
+```
+
+Then you can build the box
+```
+# on your local system with the VM running
+vagrant package --output wp-dev.box
+vagrant box add wp-dev wp-dev.box
+```
+
 # Easy WordPress VMs with Vagrant and Ansible
 
 This bundle of files automates the process of automatically creating and provisioning local virtual machines with a complete, running instance of WordPress. Such things are useful for local development and testing things like plugins and themes on a "clean" WordPress install.
@@ -42,7 +56,7 @@ So, once the box is provisioned, all you need to do is go to 192.168.50.50 in yo
 
 To begin, create an empty directory and clone the files in this repository into it.
 
-Then just run the command `vagrant up` and your VM should bootstrap itself into existence, ready to work with. 
+Then just run the command `vagrant up` and your VM should bootstrap itself into existence, ready to work with.
 
 [More information on working with Vagrant VMs, including how to shell into a running VM and shut it down safely, is available in the Vagrant documentation.](http://docs.vagrantup.com/v2/getting-started/index.html)
 
