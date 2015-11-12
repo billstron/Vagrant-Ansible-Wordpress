@@ -96,19 +96,25 @@
         append: yes
 
     - name: Unzip WordPress
-      unarchive: src=wordpress.zip dest=/vagrant/
+      unarchive: src=wordpress.zip dest=/var/www/
+
+    - name: Put wordpress in correct user:group
+      file: path=/var/www/wordpress owner=www-data group=www-data recurse=yes
+
+    - name: Add theme development directory
+      file: path=/vagrant/theme state=directory
 
     - name: Symlink web root to unzipped WordPress
       file:
-        src: "/vagrant/wordpress"
-        dest: "/var/www/wordpress"
+        src: "/vagrant/theme"
+        dest: "/var/www/wordpress/wp-content/themes/theme"
         state: "link"
 
     - name: Copy virtual host setup over
       template: src={{ vhostTemplatePath }} dest=/etc/apache2/sites-available/
 
     - name: Activate virtual host
-      command: a2ensite vhost
+      command: a2ensite vhost.conf
 
     - name: Deactivate default vhost
       command: a2dissite 000-default
